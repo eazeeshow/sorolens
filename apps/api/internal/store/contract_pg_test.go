@@ -616,10 +616,14 @@ func globalEventContractScenario() contractScenario {
 func contractAndLabelContractScenario() contractScenario {
 	return contractScenario{
 		name:   "contracts_and_labels",
-		tables: []string{"contracts", "labels_public", "labels_workspace"},
+		tables: []string{"contracts", "labels_public", "labels_workspace", "users"},
 		run: func(ctx context.Context, s store.FullStore) []string {
 			var obs []string
 			base := time.Date(2026, 9, 1, 0, 0, 0, 0, time.UTC)
+
+			for _, id := range []string{"user-1", "user-2"} {
+				_ = s.UpsertUser(ctx, store.User{ID: id})
+			}
 
 			// Stellar account IDs are 56 characters; the labels tables enforce
 			// that length with a CHECK constraint.

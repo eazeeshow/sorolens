@@ -171,7 +171,7 @@ func TestCoordinatorStore_ShardCRUD(t *testing.T) {
 		t.Fatalf("after EnsureShard: %+v, %v", shards, err)
 	}
 
-	first := time.Now().Add(-time.Hour).UTC()
+	first := time.Now().Add(-time.Hour).UTC().Truncate(time.Microsecond)
 	if err := s.Heartbeat(ctx, "w1", first); err != nil {
 		t.Fatalf("heartbeat: %v", err)
 	}
